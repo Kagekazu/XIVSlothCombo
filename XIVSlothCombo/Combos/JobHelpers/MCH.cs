@@ -135,6 +135,13 @@ namespace XIVSlothCombo.Combos.JobHelpers
             return false;
         }
 
+                return true;
+            }
+
+            PrePullStep = 0;
+            return false;
+        }
+
         private bool DoOpener(uint[] OpenerActions, ref uint actionID)
         {
             if (!LevelChecked)
