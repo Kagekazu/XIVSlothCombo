@@ -71,7 +71,7 @@ namespace XIVSlothCombo.Combos.JobHelpers
             HeatedCleanShot];
 
 
-           
+
 
         public static bool LevelChecked => CustomComboFunctions.LocalPlayer.Level >= OpenerLevel;
 
@@ -127,13 +127,6 @@ namespace XIVSlothCombo.Combos.JobHelpers
 
                 if (ActionWatching.CombatActions.Count > 2 && CustomComboFunctions.InCombat())
                     CurrentState = OpenerState.FailedOpener;
-
-                return true;
-            }
-
-            PrePullStep = 0;
-            return false;
-        }
 
                 return true;
             }

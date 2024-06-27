@@ -98,7 +98,7 @@ namespace XIVSlothCombo.Combos.PvE
                 DoubleCheck = 92,
                 CheckMate = 92,
                 Excavator = 96,
-                FullMetalField = 100;  
+                FullMetalField = 100;
         }
 
         public static class Config
