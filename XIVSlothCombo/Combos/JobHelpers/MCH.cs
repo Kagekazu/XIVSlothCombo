@@ -1,6 +1,8 @@
-﻿using ECommons.DalamudServices;
+﻿using Dalamud.Game.ClientState.JobGauge.Types;
+using ECommons.DalamudServices;
 using System.Linq;
 using XIVSlothCombo.Combos.JobHelpers.Enums;
+using XIVSlothCombo.Combos.PvE;
 using XIVSlothCombo.CustomComboNS.Functions;
 using XIVSlothCombo.Data;
 
@@ -75,9 +77,6 @@ namespace XIVSlothCombo.Combos.JobHelpers
             DoubleCheck,
             HeatedSlugShot,
             HeatedCleanShot];
-
-
-
 
         public static bool LevelChecked => CustomComboFunctions.LocalPlayer.Level >= OpenerLevel;
 
