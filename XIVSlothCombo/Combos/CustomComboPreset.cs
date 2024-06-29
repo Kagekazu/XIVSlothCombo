@@ -3502,15 +3502,19 @@ namespace XIVSlothCombo.Combos
         [CustomComboInfo("Serpents Ire", "Adds Serpents Ire to the rotation.", VPR.JobID)]
         VPR_ST_SerpentsIre = 20004,
 
+        [ParentCombo(VPR_ST_CDs)]
+        [CustomComboInfo("Dreadwinder", "Adds Dreadwinder to the rotation.", VPR.JobID)]
+        VPR_ST_Dreadwinder = 20005,
+
         #endregion
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Noxious Gnash", "Adds Noxious Gnash if it is not present on current target, or is about to expire.", VPR.JobID)]
-        VPR_ST_NoxiousGnash = 20005,
+        VPR_ST_NoxiousGnash = 20006,
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Serpents Tail", "Adds Serpents Tail to the rotation.", VPR.JobID)]
-        VPR_ST_SerpentsTail = 20006,
+        VPR_ST_SerpentsTail = 20007,
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]

@@ -18,22 +18,17 @@ namespace XIVSlothCombo.Combos.PvE
             RattlingCoil = 39189,
             Reawaken = 34626,
             SerpentsIre = 34647,
-            SerpentsTail1 = 35920,
-            SerpentsTail2 = 39183,
-            Slither1 = 34646,
-            Slither2 = 39184,
-            SnakeScales = 39185,
+            SerpentsTail = 35920,
+            Slither = 34646,
             SteelFangs = 34606,
             SteelMaw = 34614,
             SwiftskinsCoil = 34622,
             SwiftskinsDen = 34625,
             Twinblood = 35922,
             Twinfang = 35921,
-            UncoiledFury1 = 34633,
-            UncoiledFury2 = 39168,
-            Worldswallower = 39190,
+            UncoiledFury = 34633,
             WrithingSnap = 34632,
-            SwiftskinSting = 34609,
+            SwiftskinsSting = 34609,
             TwinfangBite = 34636,
             TwinbloodBite = 34637,
             UncoiledTwinfang = 34644,
@@ -101,6 +96,10 @@ namespace XIVSlothCombo.Combos.PvE
                         LevelChecked(WrithingSnap) && !InMeleeRange() && HasBattleTarget())
                         return WrithingSnap;
 
+                    if (IsEnabled(CustomComboPreset.VPR_ST_Dreadwinder) && 
+                        ActionReady(Dreadwinder) && comboTime is 0.0f && HasEffect(Buffs.Swiftscaled))
+                        return Dreadwinder;
+
                     // healing
                     if (IsEnabled(CustomComboPreset.VPR_ST_ComboHeals))
                     {
@@ -112,12 +111,12 @@ namespace XIVSlothCombo.Combos.PvE
                     }
                     //1-2-3 Combo
                     if (IsEnabled(CustomComboPreset.VPR_ST_SerpentsTail) &&
-                        CanWeave(actionID) &&
+                        CanWeave(actionID) && LevelChecked(SerpentsTail) &&
                         (lastComboMove is HindstingStrike ||
                         lastComboMove is HindsbaneFang ||
                         lastComboMove is FlankstingStrike ||
                         lastComboMove is FlanksbaneFang))
-                        return OriginalHook(SerpentsTail1);
+                        return OriginalHook(SerpentsTail);
 
                     if (GetBuffRemainingTime(Buffs.Swiftscaled) < 10 ||
                         GetDebuffRemainingTime(Debuffs.NoxiousGnash) <= NoxiousRefreshRange)
@@ -129,17 +128,12 @@ namespace XIVSlothCombo.Combos.PvE
 
                     if (comboTime > 0)
                     {
-                        if  (LevelChecked(SwiftskinSting) &&
-                            (lastComboMove is DreadFangs || lastComboMove is SteelFangs) && 
+                        if (LevelChecked(SwiftskinsSting) &&
+                            (WasLastAction(DreadFangs) || WasLastAction(SteelFangs)) &&
                             (HasEffect(Buffs.HindstungVenom) || HasEffect(Buffs.HindsbaneVenom)))
                             return OriginalHook(DreadFangs);
 
-                        if (LevelChecked(HuntersSting) &&
-                            (lastComboMove is DreadFangs || lastComboMove is SteelFangs) && 
-                            (HasEffect(Buffs.FlankstungVenom) || HasEffect(Buffs.FlanksbaneVenom)))
-                            return OriginalHook(SteelFangs);
-
-                        if (lastComboMove is SwiftskinSting && LevelChecked(HindstingStrike))
+                        if (lastComboMove is SwiftskinsSting && LevelChecked(HindstingStrike))
                         {
                             if (HasEffect(Buffs.HindstungVenom) || (!HasEffect(Buffs.HindsbaneVenom) && !HasEffect(Buffs.HindstungVenom)))
                             {
@@ -156,13 +150,18 @@ namespace XIVSlothCombo.Combos.PvE
                             {
                                 // If we are not on the rear
                                 if (IsEnabled(CustomComboPreset.VPR_TrueNorthDynamic) &&
-                                    trueNorthReady && CanDelayedWeave(actionID) && !IsMoving &&
+                                    trueNorthReady && !IsMoving && CanDelayedWeave(actionID) &&
                                     !OnTargetsRear())
                                     return All.TrueNorth;
 
                                 return OriginalHook(DreadFangs);
                             }
                         }
+
+                        if (LevelChecked(HuntersSting) &&
+                            (WasLastAction(DreadFangs) || WasLastAction(SteelFangs)) &&
+                            (HasEffect(Buffs.FlankstungVenom) || HasEffect(Buffs.FlanksbaneVenom)))
+                            return OriginalHook(SteelFangs);
 
                         if (lastComboMove is HuntersSting && LevelChecked(FlankstingStrike))
                         {
@@ -189,6 +188,7 @@ namespace XIVSlothCombo.Combos.PvE
                             }
                         }
                     }
+                    return OriginalHook(DreadFangs);
                 }
 
                 return actionID;
