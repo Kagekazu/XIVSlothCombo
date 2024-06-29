@@ -65,42 +65,6 @@ namespace XIVSlothCombo.Combos.PvE
             Dismantled = 2887;
         }
 
-        internal static class Levels
-        {
-            internal const byte
-                SlugShot = 2,
-                Hotshot = 4,
-                Reassemble = 10,
-                GaussRound = 15,
-                SpreadShot = 18,
-                CleanShot = 26,
-                Hypercharge = 30,
-                Heatblast = 35,
-                RookOverdrive = 40,
-                Wildfire = 45,
-                Ricochet = 50,
-                AutoCrossbow = 52,
-                HeatedSplitShot = 54,
-                Tactician = 56,
-                Drill = 58,
-                HeatedSlugshot = 60,
-                Dismantle = 62,
-                HeatedCleanShot = 64,
-                BarrelStabilizer = 66,
-                BlazingShot = 68,
-                FlameThrower = 70,
-                BioBlaster = 72,
-                AirAnchor = 76,
-                ChargedActionMastery = 74,
-                QueenOverdrive = 80,
-                Scattergun = 82,
-                Chainsaw = 90,
-                DoubleCheck = 92,
-                CheckMate = 92,
-                Excavator = 96,
-                FullMetalField = 100;
-        }
-
         public static class Config
         {
             public static UserInt

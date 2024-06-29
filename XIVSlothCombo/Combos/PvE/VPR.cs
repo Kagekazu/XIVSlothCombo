@@ -1,4 +1,7 @@
-﻿namespace XIVSlothCombo.Combos.PvE
+﻿using XIVSlothCombo.Combos.JobHelpers;
+using XIVSlothCombo.CustomComboNS;
+
+namespace XIVSlothCombo.Combos.PvE
 {
     internal class VPR
     {
@@ -28,9 +31,18 @@
             Twinfang = 35921,
             UncoiledFury1 = 34633,
             UncoiledFury2 = 39168,
-            Worldswallower = 39190, 
-            WrithingSnap = 34632;
- 
+            Worldswallower = 39190,
+            WrithingSnap = 34632,
+            SwiftskinSting = 34609,
+            TwinfangBite = 34636,
+            TwinbloodBite = 34637,
+            UncoiledTwinfang = 34644,
+            UncoiledTwinblood = 34645,
+            HindstingStrike = 34612,
+            DeathRattle = 34634,
+            HuntersSting = 34608,
+            ;
+
         public static class Buffs
         {
 
@@ -44,6 +56,54 @@
         public static class Config
         {
 
+        }
+
+        internal class VPR_ST_AdvancedMode : CustomCombo
+        {
+            protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VPR_ST_AdvancedMode;
+            internal static VPROpenerLogic VPROpener = new();
+
+            protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+            {
+                if (actionID is SteelFangs)
+                {
+                    //1-2-3 Combo
+                    if (HasEffect(Buffs.SharperFangAndClaw))
+                    {
+                        // If we are not on the flank, but need to use Fangs, pop true north if not already up
+                        if (IsEnabled(CustomComboPreset.DRG_TrueNorthDynamic) &&
+                            trueNorthReady && allowedToTN && CanDelayedWeave(actionID) &&
+                            !OnTargetsFlank() && !HasEffect(Buffs.RightEye))
+                            return All.TrueNorth;
+
+                        return OriginalHook(FangAndClaw);
+                    }
+
+                    if (HasEffect(Buffs.EnhancedWheelingThrust))
+                    {
+                        // If we are not on the rear, but need to use Wheeling, pop true north if not already up
+                        if (IsEnabled(CustomComboPreset.DRG_TrueNorthDynamic) &&
+                            trueNorthReady && allowedToTN && CanDelayedWeave(actionID) &&
+                            !OnTargetsRear() && !HasEffect(Buffs.RightEye))
+                            return All.TrueNorth;
+
+                        return OriginalHook(WheelingThrust);
+                    }
+
+                    if (comboTime > 0)
+                    {
+                        if (lastComboMove is SteelFangs && LevelChecked(HuntersSting))
+                            return OriginalHook(HuntersSting);
+
+                        if (lastComboMove is HuntersSting && !HasEffect(Buffs.Equals)
+                            return OriginalHook(DreadFangs);
+                    }
+
+                    return OriginalHook(DreadFangs);
+                }
+
+                return actionID;
+            }
         }
     }
 }
