@@ -115,7 +115,7 @@ namespace XIVSlothCombo.Combos.PvE
                         return All.HeadGraze;
 
                     // BarrelStabilizer use
-                    if (CanWeave(actionID) && gauge.Heat <= 45 && LevelChecked(BarrelStabilizer) && ActionReady(BarrelStabilizer))
+                    if (CanWeave(actionID) && ActionReady(BarrelStabilizer))
                         return BarrelStabilizer;
 
                     // Wildfire
@@ -339,7 +339,7 @@ namespace XIVSlothCombo.Combos.PvE
 
                     // BarrelStabilizer use
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_Stabilizer) && CanWeave(actionID) &&
-                        gauge.Heat <= 50 && ActionReady(BarrelStabilizer) && !gauge.IsOverheated)
+                        ActionReady(BarrelStabilizer) && !gauge.IsOverheated)
                         return BarrelStabilizer;
 
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_Hypercharge) &&
@@ -359,11 +359,11 @@ namespace XIVSlothCombo.Combos.PvE
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_GaussRicochet) && CanWeave(actionID) && WasLastAction(Heatblast) &&
                         ActionWatching.GetAttackType(ActionWatching.LastAction) != ActionWatching.ActionAttackType.Ability)
                     {
-                        if (ActionReady(GaussRound) && GetRemainingCharges(GaussRound) >= GetRemainingCharges(Ricochet))
-                            return GaussRound;
+                        if (ActionReady(OriginalHook(GaussRound)) && GetRemainingCharges(OriginalHook(GaussRound)) >= GetRemainingCharges(OriginalHook(Ricochet)))
+                            return OriginalHook(GaussRound);
 
-                        if (ActionReady(Ricochet) && GetRemainingCharges(Ricochet) > GetRemainingCharges(GaussRound))
-                            return Ricochet;
+                        if (ActionReady(OriginalHook(Ricochet)) && GetRemainingCharges(OriginalHook(Ricochet)) > GetRemainingCharges(OriginalHook(GaussRound)))
+                            return OriginalHook(Ricochet);
                     }
 
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_Heatblast) &&
@@ -379,11 +379,11 @@ namespace XIVSlothCombo.Combos.PvE
                         CanWeave(actionID) && !gauge.IsOverheated && !HasEffect(Buffs.Wildfire) &&
                         ActionWatching.GetAttackType(ActionWatching.LastAction) != ActionWatching.ActionAttackType.Ability)
                     {
-                        if (GetRemainingCharges(GaussRound) > 1 && LevelChecked(GaussRound))
-                            return GaussRound;
+                        if (GetRemainingCharges(OriginalHook(GaussRound)) > 1 && LevelChecked(OriginalHook(GaussRound)))
+                            return OriginalHook(GaussRound);
 
-                        if (GetRemainingCharges(Ricochet) > 1 && LevelChecked(Ricochet))
-                            return Ricochet;
+                        if (GetRemainingCharges(OriginalHook(Ricochet)) > 1 && LevelChecked(OriginalHook(Ricochet)))
+                            return OriginalHook(Ricochet);
                     }
 
                     // healing

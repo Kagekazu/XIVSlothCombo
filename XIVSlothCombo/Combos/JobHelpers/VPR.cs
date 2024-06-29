@@ -8,7 +8,7 @@ using XIVSlothCombo.Data;
 
 namespace XIVSlothCombo.Combos.JobHelpers
 {
-    internal class VPROpenerLogic : PvE.VPR
+   /* internal class VPROpenerLogic : PvE.VPR
     {
         private static bool HasCooldowns()
         {
@@ -209,20 +209,5 @@ namespace XIVSlothCombo.Combos.JobHelpers
 
             return false;
         }
-    }
-
-    internal static class MCHExtensions
-    {
-        private static uint lastBattery = 0;
-        internal static uint LastSummonBattery(this MCHGauge gauge)
-        {
-            if (!CustomComboFunctions.InCombat() || ActionWatching.CombatActions.Count(x => x == CustomComboFunctions.OriginalHook(MCH.RookAutoturret)) == 0)
-                lastBattery = 0;
-
-            if (ActionWatching.CombatActions.Count(x => x == CustomComboFunctions.OriginalHook(MCH.RookAutoturret)) > 0)
-                lastBattery = gauge.LastSummonBatteryPower;
-
-            return lastBattery;
-        }
-    }
+    }*/
 }

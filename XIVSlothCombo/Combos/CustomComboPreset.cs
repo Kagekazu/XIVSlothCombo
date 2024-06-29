@@ -1555,10 +1555,6 @@ namespace XIVSlothCombo.Combos
 
         #region Simple ST
 
-        [ReplaceSkill(MCH.CleanShot)]
-        [CustomComboInfo("Simple Combo", "Replaces Clean shot with the 1-2-3 combo", MCH.JobID)]
-        MCH_ST_BasicCombo = 8000,
-
         [ReplaceSkill(MCH.SplitShot)]
         [ConflictingCombos(MCH_ST_AdvancedMode)]
         [CustomComboInfo("Simple Mode - Single Target", "Replaces Split Shot with a one-button full single target rotation.\nThis is ideal for newcomers to the job.", MCH.JobID)]
@@ -1575,7 +1571,7 @@ namespace XIVSlothCombo.Combos
 
         [ParentCombo(MCH_ST_AdvancedMode)]
         [ConflictingCombos(MCH_GaussRoundRicochet, MCH_Heatblast_GaussRound)]
-        [CustomComboInfo("Level 90 Opener Option", "Uses the Balance opener depending on which rotation is selected above.", MCH.JobID)]
+        [CustomComboInfo("Level 100 Opener Option", "Uses the Balance opener depending on which rotation is selected above.", MCH.JobID)]
         MCH_ST_Adv_Opener = 8101,
 
         [ParentCombo(MCH_ST_AdvancedMode)]
@@ -3476,6 +3472,51 @@ namespace XIVSlothCombo.Combos
 
 
         // Last value = 17047 (170181)
+
+        #endregion
+
+        #region VIPER
+        [ReplaceSkill(VPR.SteelFangs)]
+        [ConflictingCombos(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Simple Mode - Single Target", "Replaces Steel Fangs with a full one-button single target rotation.\nThis is the ideal option for newcomers to the job.", VPR.JobID)]
+        VPR_ST_SimpleMode = 20000,
+
+        #region Advanced ST Dragoon
+
+        [ReplaceSkill(VPR.SteelFangs)]
+        [ConflictingCombos(VPR_ST_SimpleMode)]
+        [CustomComboInfo("Advanced Mode - Single Target", "Replaces Steel Fangs with a full one-button single target rotation.\nThese features are ideal if you want to customize the rotation.", VPR.JobID)]
+        VPR_ST_AdvancedMode = 20001,
+
+        [ParentCombo(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Level 100 Opener", "Adds the Balance opener to the rotation.", VPR.JobID)]
+        VPR_ST_Opener = 20002,
+
+        #region Cooldowns ST
+
+        [ParentCombo(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Cooldowns Option", "Adds various cooldowns to the rotation.", VPR.JobID)]
+        VPR_ST_CDs = 20003,
+
+        #endregion
+
+        [ParentCombo(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]
+        VPR_ST_SerpentsTail = 20004,
+
+        [ParentCombo(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]
+        VPR_ST_RangedUptime = 20997,
+
+        [ParentCombo(DRG_ST_AdvancedMode)]
+        [CustomComboInfo("Combo Heals Option", "Adds Bloodbath and Second Wind to the rotation.", VPR.JobID)]
+        VPR_ST_ComboHeals = 20998,
+
+        [ParentCombo(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Dynamic True North Option", "Adds True North when you are not in the correct position for the enhanced potency bonus.", VPR.JobID)]
+        VPR_TrueNorthDynamic = 20999,
+
+        #endregion
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.ClientState.JobGauge.Types;
+﻿using IDalamud.Game.ClientState.JobGauge.Types;
 using ECommons.DalamudServices;
 using System.Linq;
 using XIVSlothCombo.Combos.JobHelpers.Enums;
