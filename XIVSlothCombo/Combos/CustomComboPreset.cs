@@ -3498,11 +3498,15 @@ namespace XIVSlothCombo.Combos
         [CustomComboInfo("Cooldowns Option", "Adds various cooldowns to the rotation.", VPR.JobID)]
         VPR_ST_CDs = 20003,
 
+        [ParentCombo(VPR_ST_CDs)]
+        [CustomComboInfo("Rattling Ire", "Adds Rattling Ire to the rotation.", VPR.JobID)]
+        VPR_ST_RattlingIre = 20004,
+
         #endregion
 
         [ParentCombo(VPR_ST_AdvancedMode)]
-        [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]
-        VPR_ST_SerpentsTail = 20004,
+        [CustomComboInfo("Serpents Tail", "Adds Serpents Tail to the rotation.", VPR.JobID)]
+        VPR_ST_SerpentsTail = 20005,
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]

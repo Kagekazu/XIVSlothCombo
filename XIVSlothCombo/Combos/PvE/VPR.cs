@@ -1,5 +1,4 @@
-﻿using Dalamud.Game.ClientState.JobGauge.Types;
-using XIVSlothCombo.CustomComboNS;
+﻿using XIVSlothCombo.CustomComboNS;
 
 namespace XIVSlothCombo.Combos.PvE
 {
@@ -47,12 +46,23 @@ namespace XIVSlothCombo.Combos.PvE
 
         public static class Buffs
         {
-
+            public const ushort
+                FellhuntersVenom = 3659,
+                FellskinsVenom = 3660,
+                FlanksbaneVenom = 3646,
+                FlankstungVenom = 3645,
+                HindstungVenom = 3647,
+                HindsbaneVenom = 3648,
+                GrimhuntersVenom = 3649,
+                GrimskinsVenom = 3650,
+                HuntersVenom = 3657,
+                SwiftskinsVenom = 3658;
         }
 
         public static class Debuffs
         {
-
+            public const ushort
+                NoxiousGnash = 3667;
         }
 
         public static class Config
@@ -60,19 +70,23 @@ namespace XIVSlothCombo.Combos.PvE
 
         }
 
-      /*  internal class VPR_ST_AdvancedMode : CustomCombo
+        internal class VPR_ST_AdvancedMode : CustomCombo
         {
             protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VPR_ST_AdvancedMode;
             // internal static VPROpenerLogic VPROpener = new();
 
             protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
             {
-                VPRGauge? gauge = GetJobGauge<VPRGauge>();
+                //  VPRGauge? gauge = GetJobGauge<VPRGauge>();
                 bool trueNorthReady = TargetNeedsPositionals() && HasCharges(All.TrueNorth) && !HasEffect(All.Buffs.TrueNorth);
-                bool tnMoving = (Config.VPR_ST_TrueNorth_Moving && !IsMoving) || (!Config.VPR_ST_TrueNorth_Moving);
 
                 if (actionID is SteelFangs)
                 {
+
+                    if (IsEnabled(CustomComboPreset.VPR_ST_RangedUptime) &&
+                        LevelChecked(WrithingSnap) && !InMeleeRange() && HasBattleTarget())
+                        return WrithingSnap;
+
                     //1-2-3 Combo
                     if (CanWeave(actionID) &&
                         (WasLastAction(HindstingStrike) ||
@@ -92,18 +106,18 @@ namespace XIVSlothCombo.Combos.PvE
                             {
                                 // If we are not on the rear
                                 if (IsEnabled(CustomComboPreset.VPR_TrueNorthDynamic) &&
-                                    trueNorthReady && tnMoving && CanDelayedWeave(actionID) &&
+                                    trueNorthReady && !IsMoving && CanDelayedWeave(actionID) &&
                                     !OnTargetsRear())
                                     return All.TrueNorth;
 
                                 return OriginalHook(HindstingStrike);
                             }
-                            
+
                             if (HasEffect(Buffs.HindsbaneVenom))
                             {
                                 // If we are not on the rear
                                 if (IsEnabled(CustomComboPreset.VPR_TrueNorthDynamic) &&
-                                    trueNorthReady && tnMoving && CanDelayedWeave(actionID) &&
+                                    trueNorthReady && CanDelayedWeave(actionID) && !IsMoving &&
                                     !OnTargetsRear())
                                     return All.TrueNorth;
 
@@ -116,6 +130,6 @@ namespace XIVSlothCombo.Combos.PvE
 
                 return actionID;
             }
-        }*/
+        }
     }
 }
