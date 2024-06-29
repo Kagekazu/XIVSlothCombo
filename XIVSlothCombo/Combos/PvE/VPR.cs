@@ -1,4 +1,5 @@
 ﻿using XIVSlothCombo.CustomComboNS;
+using XIVSlothCombo.CustomComboNS.Functions;
 
 namespace XIVSlothCombo.Combos.PvE
 {
@@ -56,7 +57,9 @@ namespace XIVSlothCombo.Combos.PvE
                 GrimhuntersVenom = 3649,
                 GrimskinsVenom = 3650,
                 HuntersVenom = 3657,
-                SwiftskinsVenom = 3658;
+                SwiftskinsVenom = 3658,
+                HuntersInstinct = 3668,
+                Swiftscaled = 3669;
         }
 
         public static class Debuffs
@@ -67,6 +70,10 @@ namespace XIVSlothCombo.Combos.PvE
 
         public static class Config
         {
+            public static UserInt
+                VPR_NoxiousRefreshRange = new("VPR_NoxiousRefreshRange"),
+                VPR_ST_SecondWind_Threshold = new("VPR_STSecondWindThreshold"),
+                VPR_ST_Bloodbath_Threshold = new("VPR_STBloodbathThreshold");
 
         }
 
@@ -79,26 +86,58 @@ namespace XIVSlothCombo.Combos.PvE
             {
                 //  VPRGauge? gauge = GetJobGauge<VPRGauge>();
                 bool trueNorthReady = TargetNeedsPositionals() && HasCharges(All.TrueNorth) && !HasEffect(All.Buffs.TrueNorth);
+                int NoxiousRefreshRange = Config.VPR_NoxiousRefreshRange;
 
                 if (actionID is SteelFangs)
                 {
+                    // Opener for VPR
+                    /* if (IsEnabled(CustomComboPreset.VPR_ST_Opener))
+                     {
+                         if (VPROpener.DoFullOpener(ref actionID, false))
+                             return actionID;
+                     }*/
 
                     if (IsEnabled(CustomComboPreset.VPR_ST_RangedUptime) &&
                         LevelChecked(WrithingSnap) && !InMeleeRange() && HasBattleTarget())
                         return WrithingSnap;
 
+                    // healing
+                    if (IsEnabled(CustomComboPreset.VPR_ST_ComboHeals))
+                    {
+                        if (PlayerHealthPercentageHp() <= Config.VPR_ST_SecondWind_Threshold && ActionReady(All.SecondWind))
+                            return All.SecondWind;
+
+                        if (PlayerHealthPercentageHp() <= Config.VPR_ST_Bloodbath_Threshold && ActionReady(All.Bloodbath))
+                            return All.Bloodbath;
+                    }
                     //1-2-3 Combo
-                    if (CanWeave(actionID) &&
-                        (WasLastAction(HindstingStrike) ||
-                        WasLastAction(HindsbaneFang) ||
-                        WasLastAction(FlankstingStrike) ||
-                        WasLastAction(FlanksbaneFang)))
+                    if (IsEnabled(CustomComboPreset.VPR_ST_SerpentsTail) &&
+                        CanWeave(actionID) &&
+                        (lastComboMove is HindstingStrike ||
+                        lastComboMove is HindsbaneFang ||
+                        lastComboMove is FlankstingStrike ||
+                        lastComboMove is FlanksbaneFang))
                         return OriginalHook(SerpentsTail1);
+
+                    if (GetBuffRemainingTime(Buffs.Swiftscaled) < 10 ||
+                        GetDebuffRemainingTime(Debuffs.NoxiousGnash) <= NoxiousRefreshRange)
+                        return OriginalHook(DreadFangs);
+
+                    if (GetBuffRemainingTime(Buffs.HuntersInstinct) < 10 ||
+                        (GetBuffRemainingTime(Buffs.Swiftscaled) > 10 && GetDebuffRemainingTime(Debuffs.NoxiousGnash) > NoxiousRefreshRange))
+                        return OriginalHook(SteelFangs);
 
                     if (comboTime > 0)
                     {
-                        if (lastComboMove is DreadFangs && LevelChecked(SwiftskinSting))
-                            return OriginalHook(SwiftskinSting);
+                        if  (LevelChecked(SwiftskinSting) &&
+                            (lastComboMove is DreadFangs || lastComboMove is SteelFangs) && 
+                            (HasEffect(Buffs.HindstungVenom) || HasEffect(Buffs.HindsbaneVenom)))
+                            return OriginalHook(DreadFangs);
+
+                        if (LevelChecked(HuntersSting) &&
+                            (lastComboMove is DreadFangs || lastComboMove is SteelFangs) && 
+                            (HasEffect(Buffs.FlankstungVenom) || HasEffect(Buffs.FlanksbaneVenom)))
+                            return OriginalHook(SteelFangs);
 
                         if (lastComboMove is SwiftskinSting && LevelChecked(HindstingStrike))
                         {
@@ -110,7 +149,7 @@ namespace XIVSlothCombo.Combos.PvE
                                     !OnTargetsRear())
                                     return All.TrueNorth;
 
-                                return OriginalHook(HindstingStrike);
+                                return OriginalHook(SteelFangs);
                             }
 
                             if (HasEffect(Buffs.HindsbaneVenom))
@@ -121,11 +160,35 @@ namespace XIVSlothCombo.Combos.PvE
                                     !OnTargetsRear())
                                     return All.TrueNorth;
 
-                                return OriginalHook(HindsbaneFang);
+                                return OriginalHook(DreadFangs);
+                            }
+                        }
+
+                        if (lastComboMove is HuntersSting && LevelChecked(FlankstingStrike))
+                        {
+                            if (HasEffect(Buffs.FlankstungVenom) || (!HasEffect(Buffs.FlankstungVenom) && !HasEffect(Buffs.FlanksbaneVenom)))
+                            {
+                                // If we are not on the flank
+                                if (IsEnabled(CustomComboPreset.VPR_TrueNorthDynamic) &&
+                                    trueNorthReady && !IsMoving && CanDelayedWeave(actionID) &&
+                                    !OnTargetsFlank())
+                                    return All.TrueNorth;
+
+                                return OriginalHook(SteelFangs);
+                            }
+
+                            if (HasEffect(Buffs.FlanksbaneVenom))
+                            {
+                                // If we are not on the flank
+                                if (IsEnabled(CustomComboPreset.VPR_TrueNorthDynamic) &&
+                                    trueNorthReady && CanDelayedWeave(actionID) && !IsMoving &&
+                                    !OnTargetsFlank())
+                                    return All.TrueNorth;
+
+                                return OriginalHook(DreadFangs);
                             }
                         }
                     }
-                    return OriginalHook(DreadFangs);
                 }
 
                 return actionID;

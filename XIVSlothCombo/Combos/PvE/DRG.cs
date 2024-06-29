@@ -274,7 +274,7 @@ namespace XIVSlothCombo.Combos.PvE
                         AnimationLock.CanDRGWeave(Variant.VariantRampart))
                         return Variant.VariantRampart;
 
-                    // Opener for BLM
+                    // Opener for DRG
                     if (IsEnabled(CustomComboPreset.DRG_ST_Opener))
                     {
                         if (DRGOpener.DoFullOpener(ref actionID, false))
