@@ -84,7 +84,8 @@ namespace XIVSlothCombo.Combos.PvE
         public static class Traits
         {
             public const uint
-                EnhancedVipersRattle = 530;
+                EnhancedVipersRattle = 530,
+                EnhancedSerpentsLineage = 533;
         }
 
         public static class Config
@@ -139,23 +140,44 @@ namespace XIVSlothCombo.Combos.PvE
 
                             //Reawakend usage
                             if (IsEnabled(CustomComboPreset.VPR_ST_ReadyToReawaken) &&
-                                HasEffect(Buffs.ReadyToReawaken))
+                                HasEffect(Buffs.ReadyToReawaken) || gauge.SerpentsOfferings >= 50)
                                 return Reawaken;
 
                             if(IsEnabled(CustomComboPreset.VPR_ST_Reawaken) &&
                                 HasEffect(Buffs.Reawakened))
                             {
-                                if (gauge.AnguineTribute is 4)
-                                    return OriginalHook(SteelFangs);
+                                if (!TraitLevelChecked(Traits.EnhancedSerpentsLineage))
+                                {
+                                    if (gauge.AnguineTribute is 4)
+                                        return OriginalHook(SteelFangs);
 
-                                if (gauge.AnguineTribute is 3)
-                                    return OriginalHook(DreadFangs);
+                                    if (gauge.AnguineTribute is 3)
+                                        return OriginalHook(DreadFangs);
 
-                                if (gauge.AnguineTribute is 2)
-                                    return OriginalHook(HuntersCoil);
+                                    if (gauge.AnguineTribute is 2)
+                                        return OriginalHook(HuntersCoil);
 
-                                if (gauge.AnguineTribute is 1)
-                                    return OriginalHook(SwiftskinsCoil);
+                                    if (gauge.AnguineTribute is 1)
+                                        return OriginalHook(SwiftskinsCoil);
+                                }
+
+                                if (TraitLevelChecked(Traits.EnhancedSerpentsLineage))
+                                {
+                                    if (gauge.AnguineTribute is 5)
+                                        return OriginalHook(SteelFangs);
+
+                                    if (gauge.AnguineTribute is 4)
+                                        return OriginalHook(DreadFangs);
+
+                                    if (gauge.AnguineTribute is 3)
+                                        return OriginalHook(HuntersCoil);
+
+                                    if (gauge.AnguineTribute is 2)
+                                        return OriginalHook(SwiftskinsCoil);
+
+                                    if (gauge.AnguineTribute is 1)
+                                        return OriginalHook(Reawaken);
+                                }
                             }
 
                             // Uncoiled Fury usage
