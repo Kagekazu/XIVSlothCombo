@@ -128,8 +128,8 @@ namespace XIVSlothCombo.Combos.PvE
                             //Overcap protection
                             if (IsEnabled(CustomComboPreset.VPR_ST_UncoiledFury) &&
                                 HasCharges(Dreadwinder) &&
-                                ((gauge.RattlingCoilStacks is 3 && level >= 88/*TraitLevelChecked(Traits.EnhancedVipersRattle)*/) ||
-                                (gauge.RattlingCoilStacks is 2 && level < 88/*!TraitLevelChecked(Traits.EnhancedVipersRattle)*/)))
+                                ((gauge.RattlingCoilStacks is 3 && TraitLevelChecked(Traits.EnhancedVipersRattle)) ||
+                                (gauge.RattlingCoilStacks is 2 && !TraitLevelChecked(Traits.EnhancedVipersRattle))))
                                 return UncoiledFury;
 
                             //Serpents Ire usage
@@ -291,8 +291,8 @@ namespace XIVSlothCombo.Combos.PvE
                         //Overcap protection
                         if (IsEnabled(CustomComboPreset.VPR_AoE_UncoiledFury) &&
                             HasCharges(Dreadwinder) &&
-                            ((gauge.RattlingCoilStacks is 3 && level >= 88/*TraitLevelChecked(Traits.EnhancedVipersRattle)*/) ||
-                            (gauge.RattlingCoilStacks is 2 && level < 88/*!TraitLevelChecked(Traits.EnhancedVipersRattle)*/)))
+                            ((gauge.RattlingCoilStacks is 3 && TraitLevelChecked(Traits.EnhancedVipersRattle)) ||
+                            (gauge.RattlingCoilStacks is 2 && !TraitLevelChecked(Traits.EnhancedVipersRattle))))
                             return UncoiledFury;
 
                         //Serpents Ire usage
