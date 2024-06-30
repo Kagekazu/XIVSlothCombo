@@ -3506,19 +3506,23 @@ namespace XIVSlothCombo.Combos
         [CustomComboInfo("Serpents Ire", "Adds Serpents Ire to the rotation.", VPR.JobID)]
         VPR_ST_SerpentsIre = 20005,
 
+        [ParentCombo(VPR_ST_SerpentsIre)]
+        [CustomComboInfo("Ready To Reawaken", "Adds Ready to Reawaken buff.", VPR.JobID)]
+        VPR_ST_ReadyToReawaken = 20006,
+
         [ParentCombo(VPR_ST_CDs)]
         [CustomComboInfo("Dreadwinder", "Adds Dreadwinder to the rotation.", VPR.JobID)]
-        VPR_ST_Dreadwinder = 20006,
+        VPR_ST_Dreadwinder = 20007,
 
         #endregion
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Serpents Tail", "Adds Serpents Tail to the rotation.", VPR.JobID)]
-        VPR_ST_SerpentsTail = 20007,
+        VPR_ST_SerpentsTail = 20008,
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Uncoiled Fury", "Adds Uncoiled Fury to the rotation.", VPR.JobID)]
-        VPR_ST_UncoiledFury = 20008,
+        VPR_ST_UncoiledFury = 20009,
 
         [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]
@@ -3550,7 +3554,7 @@ namespace XIVSlothCombo.Combos
         [CustomComboInfo("Noxious Gnash", "Adds Noxious Gnash if it is not present on current target, or is about to expire.", VPR.JobID)]
         VPR_AoE_NoxiousGnash = 20102,
 
-        #region Cooldowns ST
+        #region Cooldowns AoE
 
         [ParentCombo(VPR_AoE_AdvancedMode)]
         [CustomComboInfo("Cooldowns Option", "Adds various cooldowns to the rotation.", VPR.JobID)]
@@ -3559,6 +3563,7 @@ namespace XIVSlothCombo.Combos
         [ParentCombo(VPR_AoE_CDs)]
         [CustomComboInfo("Serpents Ire", "Adds Serpents Ire to the rotation.", VPR.JobID)]
         VPR_AoE_SerpentsIre = 20104,
+
 
         [ParentCombo(VPR_AoE_CDs)]
         [CustomComboInfo("Pit Of Dread", "Adds Pit Of Dread to the rotation.", VPR.JobID)]

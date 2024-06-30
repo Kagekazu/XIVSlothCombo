@@ -61,6 +61,8 @@ public unsafe class TmpVPRGauge
 
     public byte SerpentsOfferings => Struct->SerpentsOfferings;
 
+    public byte AnguineTribute => Struct->AnguineTribute;
+
     private protected ViperGauge* Struct;
 
     public byte GetOffset(int offset)
@@ -105,6 +107,7 @@ public struct ViperGauge
 {
     [FieldOffset(0x08)] public byte RattlingCoilStacks;
     [FieldOffset(0x0A)] public byte SerpentsOfferings;
+    [FieldOffset(0x0A)] public byte AnguineTribute;
 
 }
 

@@ -25,7 +25,7 @@ namespace XIVSlothCombo.Combos.JobHelpers
 
         public uint OpenerStep = 0;
 
-        private static uint[] StandardOpener = [
+        private static readonly uint[] StandardOpener = [
             SerpentsIre,
             SwiftskinsSting,
             Dreadwinder,
@@ -63,7 +63,6 @@ namespace XIVSlothCombo.Combos.JobHelpers
             SwiftskinsCoil,
             TwinbloodBite,
             TwinfangBite];
-
 
         public static bool LevelChecked => CustomComboFunctions.LocalPlayer.Level >= OpenerLevel;
 
@@ -196,6 +195,6 @@ namespace XIVSlothCombo.Combos.JobHelpers
     }
     internal static class VPRHelpers
     {
-        public static bool HasRattlingCoilStack(this TmpVPRGauge gauge) => gauge.RattlingCoilStacks > 0;
+        public static bool HasRattlingCoilStack(this TmpVPRGauge gauge) => gauge.RattlingCoilStacks > 1;
     }
 }

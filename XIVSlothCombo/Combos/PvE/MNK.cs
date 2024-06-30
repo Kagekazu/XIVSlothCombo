@@ -630,8 +630,8 @@ namespace XIVSlothCombo.Combos.PvE
                         if (HasEffect(Buffs.FormlessFist) || HasEffect(Buffs.OpoOpoForm))
                         {
                             return !LevelChecked(DragonKick) || HasEffect(Buffs.LeadenFist)
-                                ? Bootshine
-                                : DragonKick;
+                                ? OriginalHook(Bootshine)
+                                : OriginalHook(DragonKick);
                         }
                     }
 
@@ -639,20 +639,20 @@ namespace XIVSlothCombo.Combos.PvE
                     {
                         if (!LevelChecked(TrueStrike)) 
                         {
-                            return Bootshine;
+                            return OriginalHook(Bootshine);
                         }
 
                         return !LevelChecked(TwinSnakes) || (twinsnakeDuration >= PluginConfiguration.GetCustomFloatValue(Config.MNK_DisciplinedFist_Apply))
-                            ? TrueStrike
-                            : TwinSnakes;
+                            ? OriginalHook(TrueStrike)
+                            : OriginalHook(TwinSnakes);
                     }
                     if (!HasEffect(Buffs.FormlessFist) && HasEffect(Buffs.CoerlForm))
                     {
                         return !LevelChecked(SnapPunch)
-                            ? Bootshine
+                            ? OriginalHook(Bootshine)
                             : !LevelChecked(Demolish) || (demolishDuration >= PluginConfiguration.GetCustomFloatValue(Config.MNK_Demolish_Apply))
-                                ? SnapPunch
-                                : Demolish;
+                                ? OriginalHook(SnapPunch)
+                                : OriginalHook(Demolish);
                     }
                 }
                 return actionID;
