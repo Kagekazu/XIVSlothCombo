@@ -3525,6 +3525,10 @@ namespace XIVSlothCombo.Combos
         VPR_ST_UncoiledFury = 20009,
 
         [ParentCombo(VPR_ST_AdvancedMode)]
+        [CustomComboInfo("Reawaken", "Adds Reawaken to the rotation.", VPR.JobID)]
+        VPR_ST_Reawaken = 20010, 
+
+        [ParentCombo(VPR_ST_AdvancedMode)]
         [CustomComboInfo("Ranged Uptime Option", "Adds Writhing Snap to the rotation when you are out of melee range.", VPR.JobID)]
         VPR_ST_RangedUptime = 20097,
 
@@ -3564,20 +3568,28 @@ namespace XIVSlothCombo.Combos
         [CustomComboInfo("Serpents Ire", "Adds Serpents Ire to the rotation.", VPR.JobID)]
         VPR_AoE_SerpentsIre = 20104,
 
+        [ParentCombo(VPR_AoE_SerpentsIre)]
+        [CustomComboInfo("Ready To Reawaken", "Adds Ready to Reawaken buff.", VPR.JobID)]
+        VPR_AoE_ReadyToReawaken = 200105,
+
 
         [ParentCombo(VPR_AoE_CDs)]
         [CustomComboInfo("Pit Of Dread", "Adds Pit Of Dread to the rotation.", VPR.JobID)]
-        VPR_AoE_PitOfDread = 20105,
+        VPR_AoE_PitOfDread = 20106,
 
         #endregion
 
         [ParentCombo(VPR_AoE_AdvancedMode)]
         [CustomComboInfo("Serpents Tail", "Adds Serpents Tail to the rotation.", VPR.JobID)]
-        VPR_AoE_SerpentsTail = 20106,
+        VPR_AoE_SerpentsTail = 20107,
 
         [ParentCombo(VPR_AoE_AdvancedMode)]
         [CustomComboInfo("Uncoiled Fury", "Adds Uncoiled Fury to the rotation.", VPR.JobID)]
-        VPR_AoE_UncoiledFury = 20107,
+        VPR_AoE_UncoiledFury = 20108,
+
+        [ParentCombo(VPR_AoE_AdvancedMode)]
+        [CustomComboInfo("Reawaken", "Adds Reawaken to the rotation.", VPR.JobID)]
+        VPR_AoE_Reawaken = 20109,
 
         [ParentCombo(VPR_AoE_AdvancedMode)]
         [CustomComboInfo("Combo Heals Option", "Adds Bloodbath and Second Wind to the rotation.", VPR.JobID)]
