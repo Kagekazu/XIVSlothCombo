@@ -2374,6 +2374,7 @@ namespace XIVSlothCombo.Window.Functions
             #endregion
             // ====================================================================================
             #region VIPER
+
             if (preset == CustomComboPreset.VPR_ST_ComboHeals)
             {
                 UserConfig.DrawSliderInt(0, 100, VPR.Config.VPR_ST_SecondWind_Threshold, "Second Wind HP percentage threshold (0 = Disabled)", 150, SliderIncrements.Ones);
