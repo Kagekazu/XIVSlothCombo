@@ -1,6 +1,5 @@
 ﻿using Dalamud.Game.ClientState.JobGauge.Types;
 using ECommons.DalamudServices;
-using System.Linq;
 using XIVSlothCombo.Combos.JobHelpers.Enums;
 using XIVSlothCombo.Combos.PvE;
 using XIVSlothCombo.CustomComboNS.Functions;
@@ -8,25 +7,15 @@ using XIVSlothCombo.Data;
 
 namespace XIVSlothCombo.Combos.JobHelpers
 {
-   /* internal class VPROpenerLogic : PvE.VPR
+    internal class VPROpenerLogic : VPR
     {
         private static bool HasCooldowns()
         {
-            if (CustomComboFunctions.GetRemainingCharges(CheckMate) < 3)
-                return false;
-            if (CustomComboFunctions.GetRemainingCharges(DoubleCheck) < 3)
-                return false;
-            if (!CustomComboFunctions.ActionReady(Chainsaw))
-                return false;
-            if (!CustomComboFunctions.ActionReady(Wildfire))
-                return false;
-            if (!CustomComboFunctions.ActionReady(BarrelStabilizer))
-                return false;
-            if (!CustomComboFunctions.ActionReady(Excavator))
-                return false;
-            if (!CustomComboFunctions.ActionReady(FullMetalField))
+            if (CustomComboFunctions.GetRemainingCharges(Dreadwinder) < 2)
                 return false;
 
+            if (!CustomComboFunctions.ActionReady(SerpentsIre))
+                return false;
             return true;
         }
 
@@ -38,7 +27,7 @@ namespace XIVSlothCombo.Combos.JobHelpers
 
         private static uint[] StandardOpener = [
             SerpentsIre,
-            SwiftskinSting,
+            SwiftskinsSting,
             Dreadwinder,
             HuntersCoil,
             TwinfangBite,
@@ -52,20 +41,20 @@ namespace XIVSlothCombo.Combos.JobHelpers
             SecondGeneration,
             SecondLegacy,
             ThirdGeneration,
-            ThirdLegagy,
+            ThirdLegacy,
             FourthGeneration,
             FourthLegacy,
             Ouroboros,
-            UncoiledFury1,
+            UncoiledFury,
             UncoiledTwinfang,
             UncoiledTwinblood,
-            UncoiledFury1,
+            UncoiledFury,
             UncoiledTwinfang,
             UncoiledTwinblood,
             HindstingStrike,
             DeathRattle,
             Dreadwinder,
-            UncoiledFury1,
+            UncoiledFury,
             UncoiledTwinfang,
             UncoiledTwinblood,
             HuntersCoil,
@@ -156,13 +145,8 @@ namespace XIVSlothCombo.Combos.JobHelpers
                 if (CustomComboFunctions.InCombat() && ActionWatching.TimeSinceLastAction.TotalSeconds >= 5)
                     CurrentState = OpenerState.FailedOpener;
 
-                if (((actionID == Ricochet && CustomComboFunctions.GetRemainingCharges(CheckMate) < 3) ||
-                        (actionID == Chainsaw && CustomComboFunctions.IsOnCooldown(Chainsaw)) ||
-                        (actionID == Wildfire && CustomComboFunctions.IsOnCooldown(Wildfire)) ||
-                        (actionID == BarrelStabilizer && CustomComboFunctions.IsOnCooldown(BarrelStabilizer)) ||
-                        (actionID == BarrelStabilizer && CustomComboFunctions.IsOnCooldown(Excavator)) ||
-                        (actionID == BarrelStabilizer && CustomComboFunctions.IsOnCooldown(FullMetalField)) ||
-                        (actionID == GaussRound && CustomComboFunctions.GetRemainingCharges(DoubleCheck) < 3)) && ActionWatching.TimeSinceLastAction.TotalSeconds >= 3)
+                if (((actionID == Dreadwinder && CustomComboFunctions.GetRemainingCharges(Dreadwinder) < 2) ||
+                        (actionID == SerpentsIre && CustomComboFunctions.IsOnCooldown(SerpentsIre))) && ActionWatching.TimeSinceLastAction.TotalSeconds >= 3)
                 {
                     CurrentState = OpenerState.FailedOpener;
                     return false;
@@ -209,5 +193,9 @@ namespace XIVSlothCombo.Combos.JobHelpers
 
             return false;
         }
-    }*/
+    }
+    internal static class VPRHelpers
+    {
+        public static bool HasRattlingCoilStack(this TmpVPRGauge gauge) => gauge.RattlingCoilStacks > 0;
+    }
 }

@@ -1,5 +1,7 @@
-﻿using XIVSlothCombo.CustomComboNS;
+﻿using XIVSlothCombo.Combos.JobHelpers;
+using XIVSlothCombo.CustomComboNS;
 using XIVSlothCombo.CustomComboNS.Functions;
+using XIVSlothCombo.Data;
 
 namespace XIVSlothCombo.Combos.PvE
 {
@@ -38,7 +40,20 @@ namespace XIVSlothCombo.Combos.PvE
             HuntersSting = 34608,
             HindsbaneFang = 34613,
             FlankstingStrike = 34610,
-            FlanksbaneFang = 34611;
+            FlanksbaneFang = 34611,
+            HuntersBite = 34616,
+            JaggedMaw = 34618,
+            SwiftskinsBite = 34617,
+            BloodiedMaw = 34619,
+            FirstGeneration = 34627,
+            FirstLegacy = 34640,
+            SecondGeneration = 34628,
+            SecondLegacy = 34641,
+            ThirdGeneration = 34629,
+            ThirdLegacy = 34642,
+            FourthGeneration = 34630,
+            FourthLegacy = 34643,
+            Ouroboros = 34631;
 
         public static class Buffs
         {
@@ -67,29 +82,31 @@ namespace XIVSlothCombo.Combos.PvE
         {
             public static UserInt
                 VPR_NoxiousRefreshRange = new("VPR_NoxiousRefreshRange"),
-                VPR_ST_SecondWind_Threshold = new("VPR_STSecondWindThreshold"),
-                VPR_ST_Bloodbath_Threshold = new("VPR_STBloodbathThreshold");
+                VPR_ST_SecondWind_Threshold = new("VPR_ST_SecondWindThreshold"),
+                VPR_ST_Bloodbath_Threshold = new("VPR_ST_BloodbathThreshold"),
+                VPR_AoE_SecondWind_Threshold = new("VPR_AoE_SecondWindThreshold"),
+                VPR_AoE_Bloodbath_Threshold = new("VPR_AoE_BloodbathThreshold");
         }
 
         internal class VPR_ST_AdvancedMode : CustomCombo
         {
             protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VPR_ST_AdvancedMode;
-            // internal static VPROpenerLogic VPROpener = new();
+            internal static VPROpenerLogic VPROpener = new();
 
             protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
             {
-                // VPRGauge? gauge = GetJobGauge<VPRGauge>();
+                var gauge = new TmpVPRGauge();
                 bool trueNorthReady = TargetNeedsPositionals() && HasCharges(All.TrueNorth) && !HasEffect(All.Buffs.TrueNorth);
                 int NoxiousRefreshRange = Config.VPR_NoxiousRefreshRange;
 
                 if (actionID is SteelFangs)
                 {
                     // Opener for VPR
-                    /* if (IsEnabled(CustomComboPreset.VPR_ST_Opener))
-                     {
-                         if (VPROpener.DoFullOpener(ref actionID, false))
-                             return actionID;
-                     }*/
+                    if (IsEnabled(CustomComboPreset.VPR_ST_Opener))
+                    {
+                        if (VPROpener.DoFullOpener(ref actionID, false))
+                            return actionID;
+                    }
 
                     if (IsEnabled(CustomComboPreset.VPR_ST_RangedUptime) &&
                         LevelChecked(WrithingSnap) && !InMeleeRange() && HasBattleTarget())
@@ -117,11 +134,11 @@ namespace XIVSlothCombo.Combos.PvE
                                         return OriginalHook(Twinblood);
                                 }
 
-                                if (WasLastWeaponskill(Dreadwinder) && ActionReady(HuntersCoil))
-                                    return OriginalHook(HuntersCoil);
-
-                                if (WasLastWeaponskill(HuntersCoil))
+                                if (WasLastWeaponskill(Dreadwinder) && ActionReady(SwiftskinsCoil))
                                     return OriginalHook(SwiftskinsCoil);
+
+                                if (WasLastWeaponskill(SwiftskinsCoil))
+                                    return OriginalHook(HuntersCoil);
                             }
                         }
                     }
@@ -169,7 +186,7 @@ namespace XIVSlothCombo.Combos.PvE
                                 return OriginalHook(DreadFangs);
 
                             if (IsEnabled(CustomComboPreset.VPR_ST_UncoiledFury) &&
-                                ActionReady(UncoiledFury))
+                                LevelChecked(UncoiledFury) && gauge.HasRattlingCoilStack())
                                 return UncoiledFury;
 
                             if (IsEnabled(CustomComboPreset.VPR_ST_Dreadwinder) &&
@@ -182,6 +199,110 @@ namespace XIVSlothCombo.Combos.PvE
                         }
                     }
                     return OriginalHook(DreadFangs);
+                }
+                return actionID;
+            }
+        }
+
+        internal class VPR_AoE_AdvancedMode : CustomCombo
+        {
+            protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VPR_AoE_AdvancedMode;
+
+            protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+            {
+                var gauge = new TmpVPRGauge();
+                bool trueNorthReady = TargetNeedsPositionals() && HasCharges(All.TrueNorth) && !HasEffect(All.Buffs.TrueNorth);
+                int NoxiousRefreshRange = Config.VPR_NoxiousRefreshRange;
+
+                if (actionID is SteelMaw)
+                {
+                    if (TargetHasEffect(Debuffs.NoxiousGnash))
+                    {
+                        if (IsEnabled(CustomComboPreset.VPR_AoE_CDs))
+                        {
+                            //Serpents Ire usage
+                            if (IsEnabled(CustomComboPreset.VPR_AoE_SerpentsIre) &&
+                                ActionReady(SerpentsIre) && CanWeave(actionID))
+                                return SerpentsIre;
+
+                            // Dreadwinder usage
+                            if (IsEnabled(CustomComboPreset.VPR_AoE_PitOfDread))
+                            {
+                                // Twinbites hunters coil combo
+                                if (WasLastWeaponskill(HuntersDen) || WasLastWeaponskill(SwiftskinsDen))
+                                {
+                                    if (HasEffect(Buffs.FellhuntersVenom))
+                                        return OriginalHook(Twinfang);
+
+                                    if (HasEffect(Buffs.FellskinsVenom))
+                                        return OriginalHook(Twinblood);
+                                }
+
+                                if (WasLastWeaponskill(PitofDread) && ActionReady(SwiftskinsDen))
+                                    return OriginalHook(SwiftskinsDen);
+
+                                if (WasLastWeaponskill(SwiftskinsDen))
+                                    return OriginalHook(HuntersDen);
+                            }
+                        }
+                    }
+
+
+                    // healing
+                    if (IsEnabled(CustomComboPreset.VPR_AoE_ComboHeals))
+                    {
+                        if (PlayerHealthPercentageHp() <= Config.VPR_AoE_SecondWind_Threshold && ActionReady(All.SecondWind))
+                            return All.SecondWind;
+
+                        if (PlayerHealthPercentageHp() <= Config.VPR_AoE_Bloodbath_Threshold && ActionReady(All.Bloodbath))
+                            return All.Bloodbath;
+                    }
+
+                    //1-2-3 (4-5-6) Combo
+                    if (comboTime > 0)
+                    {
+                        if (lastComboMove is DreadMaw or SteelMaw)
+                        {
+                            if (HasEffect(Buffs.GrimhuntersVenom))
+                                return OriginalHook(SteelMaw);
+
+                            if (HasEffect(Buffs.GrimskinsVenom))
+                                return OriginalHook(DreadMaw);
+                        }
+
+                        if (lastComboMove is HuntersBite or SwiftskinsBite)
+                        {
+                            if (HasEffect(Buffs.GrimhuntersVenom))
+                                return OriginalHook(SteelMaw);
+
+                            if (HasEffect(Buffs.GrimskinsVenom))
+                                return OriginalHook(DreadMaw);
+                        }
+
+                        if (lastComboMove is JaggedMaw or BloodiedMaw)
+                        {
+                            if (IsEnabled(CustomComboPreset.VPR_AoE_SerpentsTail) &&
+                                CanWeave(actionID) && LevelChecked(SerpentsTail))
+                                return OriginalHook(SerpentsTail);
+
+                            if (GetBuffRemainingTime(Buffs.Swiftscaled) < 10 ||
+                                (GetDebuffRemainingTime(Debuffs.NoxiousGnash) <= NoxiousRefreshRange))
+                                return OriginalHook(DreadMaw);
+
+                            if (IsEnabled(CustomComboPreset.VPR_AoE_UncoiledFury) &&
+                                LevelChecked(UncoiledFury) && gauge.HasRattlingCoilStack())
+                                return UncoiledFury;
+
+                            if (IsEnabled(CustomComboPreset.VPR_AoE_PitOfDread) &&
+                                ActionReady(PitofDread))
+                                return PitofDread;
+
+                            if (GetBuffRemainingTime(Buffs.HuntersInstinct) < 10 ||
+                                (GetDebuffRemainingTime(Debuffs.NoxiousGnash) > NoxiousRefreshRange))
+                                return OriginalHook(SteelMaw);
+                        }
+                    }
+                    return OriginalHook(DreadMaw);
                 }
                 return actionID;
             }
