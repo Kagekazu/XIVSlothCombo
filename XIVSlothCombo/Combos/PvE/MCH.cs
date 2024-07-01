@@ -1,5 +1,6 @@
 using Dalamud.Game.ClientState.JobGauge.Types;
 using ECommons.DalamudServices;
+using FFXIVClientStructs.FFXIV.Component.Text;
 using System.Linq;
 using XIVSlothCombo.Combos.JobHelpers;
 using XIVSlothCombo.Combos.PvE.Content;
@@ -56,7 +57,8 @@ namespace XIVSlothCombo.Combos.PvE
                 Tactician = 1951,
                 Wildfire = 1946,
                 Overheated = 2688,
-                Flamethrower = 1205;
+                Flamethrower = 1205,
+                Hypercharged = 3864;
         }
 
         public static class Debuffs
@@ -328,10 +330,12 @@ namespace XIVSlothCombo.Combos.PvE
 
                     // Wildfire
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_WildFire) &&
-                        gauge.Heat >= 50 && CanWeave(actionID) && !gauge.IsOverheated && ActionReady(Wildfire) &&
+                        (gauge.Heat >= 50 || HasEffect(Buffs.Hypercharged)) && CanWeave(actionID) && !gauge.IsOverheated && ActionReady(Wildfire) &&
                         (GetCooldownRemainingTime(Chainsaw) <= 1 || level < 90))
                         return Wildfire;
-
+                    //Full metal field
+                    if (GetCooldownRemainingTime(Wildfire) <= 3)
+                        return OriginalHook(BarrelStabilizer);
 
                     //Queen
                     if (UseQueen(gauge))
@@ -368,11 +372,14 @@ namespace XIVSlothCombo.Combos.PvE
 
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_Heatblast) &&
                         gauge.IsOverheated && LevelChecked(Heatblast))
-                        return Heatblast;
+                        return OriginalHook(Heatblast);
 
                     if (ReassembledTools(ref actionID))
                         return actionID;
 
+                    // Excavator
+                    if (WasLastAction(Chainsaw) && LevelChecked(Excavator))
+                        return OriginalHook(Chainsaw);
 
                     //gauss and ricochet overcap protection
                     if (IsEnabled(CustomComboPreset.MCH_ST_Adv_GaussRicochet) &&
