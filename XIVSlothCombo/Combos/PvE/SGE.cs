@@ -83,7 +83,8 @@ namespace XIVSlothCombo.Combos.PvE
             internal const ushort
                 EukrasianDosis = 2614,
                 EukrasianDosis2 = 2615,
-                EukrasianDosis3 = 2616;
+                EukrasianDosis3 = 2616,
+                EukrasianDyskrasia = 3897;
         }
 
         // Debuff Pairs of Actions and Debuff
@@ -109,13 +110,13 @@ namespace XIVSlothCombo.Combos.PvE
             public static UserBoolArray
                 SGE_ST_DPS_Movement = new("SGE_ST_DPS_Movement");
             public static UserInt
-                SGE_ST_DPS_EDosisHPPer = new("SGE_ST_Dosis_EDosisHPPer"),
-                SGE_ST_DPS_Lucid = new("SGE_ST_DPS_Lucid"),
+                SGE_ST_DPS_EDosisHPPer = new("SGE_ST_Dosis_EDosisHPPer",10),
+                SGE_ST_DPS_Lucid = new("SGE_ST_DPS_Lucid",6500),
                 SGE_ST_DPS_Rhizo = new("SGE_ST_DPS_Rhizo"),
-                SGE_AoE_DPS_Lucid = new("SGE_AoE_Phlegma_Lucid"),
+                SGE_AoE_DPS_Lucid = new("SGE_AoE_Phlegma_Lucid",6500),
                 SGE_AoE_DPS_Rhizo = new("SGE_AoE_DPS_Rhizo");
             public static UserFloat
-                SGE_ST_DPS_EDosisThreshold = new("SGE_ST_Dosis_EDosisThreshold");
+                SGE_ST_DPS_EDosisThreshold = new("SGE_ST_Dosis_EDosisThreshold",3.0f);
             #endregion
 
             #region Healing
@@ -147,7 +148,8 @@ namespace XIVSlothCombo.Combos.PvE
         internal static class Traits
         {
             internal const ushort
-                EnhancedKerachole = 375;
+                EnhancedKerachole = 375,
+                OffensiveMagicMasteryII = 376;
         }
 
 
@@ -237,6 +239,34 @@ namespace XIVSlothCombo.Combos.PvE
                             ActionReady(Rhizomata) && Gauge.Addersgall <= Config.SGE_AoE_DPS_Rhizo)
                             return Rhizomata;
 
+                        //Eukrasia for DoT
+                        if (IsEnabled(CustomComboPreset.SGE_AoE_DPS_EDyskrasia))
+                        {
+                            if (IsOffCooldown(Eukrasia) &&
+                                TraitLevelChecked(Traits.OffensiveMagicMasteryII) &&
+                                HasBattleTarget() &&
+                                InActionRange(Dyskrasia)) //Same range
+                            {
+                                Status? dotDebuff = FindTargetEffect(Debuffs.EukrasianDyskrasia);
+                                float refreshtimer = 3; //Will revisit if it's really needed....Config.SGE_ST_DPS_EDosis_Adv ? Config.SGE_ST_DPS_EDosisThreshold : 3;
+
+                                if ((dotDebuff is null || dotDebuff.RemainingTime <= refreshtimer) &&
+                                    GetTargetHPPercent() > 10)//Will Revisit if Config is neededConfig.SGE_ST_DPS_EDosisHPPer)
+                                    return Eukrasia;
+                            }
+                        }
+
+                        // Psyche
+                        if (IsEnabled(CustomComboPreset.SGE_AoE_DPS_Psyche))
+                        {
+                            if (ActionReady(Psyche) &&
+                                HasBattleTarget() &&
+                                InActionRange(Psyche) &&
+                                CanSpellWeave(actionID))
+                                return Psyche;
+                        }
+
+                        //Phlegma
                         if (IsEnabled(CustomComboPreset.SGE_AoE_DPS_Phlegma))
                         {
                             uint PhlegmaID = OriginalHook(Phlegma);
@@ -245,6 +275,8 @@ namespace XIVSlothCombo.Combos.PvE
                                 InActionRange(PhlegmaID)) 
                                 return PhlegmaID;
                         }
+                        
+                        //Toxikon
                         if (IsEnabled(CustomComboPreset.SGE_AoE_DPS_Toxikon))
                         {
                             uint ToxikonID = OriginalHook(Toxikon);
@@ -253,7 +285,6 @@ namespace XIVSlothCombo.Combos.PvE
                                 InActionRange(ToxikonID) &&
                                 Gauge.HasAddersting())
                             {
-                                //Possible Dawntrail Suboption to disable while in range? Potency unknown
                                 return ToxikonID;
                             }
                         }
@@ -319,7 +350,11 @@ namespace XIVSlothCombo.Combos.PvE
                                     CanSpellWeave(actionID))
                                     return Variant.VariantSpiritDart;
 
-                                Status? dotDebuff = FindTargetEffect(dotDebuffID);
+                                Status? dotDebuff = null;
+                                //If we have AoE DoT, go with it because St DoT overwrites
+                                //Else search for the ST DoT
+                                if (TraitLevelChecked(Traits.OffensiveMagicMasteryII)) dotDebuff = FindTargetEffect(Debuffs.EukrasianDyskrasia);
+                                dotDebuff ??= FindTargetEffect(dotDebuffID);
                                 float refreshtimer = Config.SGE_ST_DPS_EDosis_Adv ? Config.SGE_ST_DPS_EDosisThreshold : 3;
 
                                 if ((dotDebuff is null || dotDebuff.RemainingTime <= refreshtimer) &&
@@ -348,6 +383,8 @@ namespace XIVSlothCombo.Combos.PvE
                         {
                             if (Config.SGE_ST_DPS_Movement.Count == 3)
                             {
+                                // Psyche
+                                if (Config.SGE_ST_DPS_Movement[3] && LevelChecked(Psyche)) return Psyche;
                                 // Toxikon
                                 if (Config.SGE_ST_DPS_Movement[0] && LevelChecked(Toxikon) && Gauge.HasAddersting()) return OriginalHook(Toxikon);
                                 // Dyskrasia
