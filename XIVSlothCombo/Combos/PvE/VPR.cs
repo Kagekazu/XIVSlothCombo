@@ -86,7 +86,8 @@ namespace XIVSlothCombo.Combos.PvE
         {
             public const uint
                 EnhancedVipersRattle = 530,
-                EnhancedSerpentsLineage = 533;
+                EnhancedSerpentsLineage = 533,
+                SerpentsLegacy = 534;
         }
 
         public static class Config
@@ -160,6 +161,11 @@ namespace XIVSlothCombo.Combos.PvE
 
                                 if (TraitLevelChecked(Traits.EnhancedSerpentsLineage))
                                 {
+                                    if (TraitLevelChecked(Traits.EnhancedSerpentsLineage) && CanWeave(actionID) &&
+                                        (WasLastAction(OriginalHook(SteelFangs)) || WasLastAction(OriginalHook(DreadFangs)) ||
+                                        WasLastAction(OriginalHook(HuntersCoil)) || WasLastAction(OriginalHook(SwiftskinsCoil))))
+                                        return OriginalHook(SerpentsTail);
+
                                     if (gauge.AnguineTribute is 5)
                                         return OriginalHook(SteelFangs);
 
@@ -343,6 +349,11 @@ namespace XIVSlothCombo.Combos.PvE
 
                             if (TraitLevelChecked(Traits.EnhancedSerpentsLineage))
                             {
+                                if (TraitLevelChecked(Traits.EnhancedSerpentsLineage) && CanWeave(actionID) &&
+                                        (WasLastAction(OriginalHook(SteelMaw)) || WasLastAction(OriginalHook(DreadMaw)) ||
+                                        WasLastAction(OriginalHook(HuntersDen)) || WasLastAction(OriginalHook(SwiftskinsDen))))
+                                    return OriginalHook(SerpentsTail);
+
                                 if (gauge.AnguineTribute is 5)
                                     return OriginalHook(SteelMaw);
 
@@ -397,8 +408,8 @@ namespace XIVSlothCombo.Combos.PvE
                         }
                     }
 
-                // healing
-                if (IsEnabled(CustomComboPreset.VPR_AoE_ComboHeals))
+                    // healing
+                    if (IsEnabled(CustomComboPreset.VPR_AoE_ComboHeals))
                     {
                         if (PlayerHealthPercentageHp() <= Config.VPR_AoE_SecondWind_Threshold && ActionReady(All.SecondWind))
                             return All.SecondWind;
