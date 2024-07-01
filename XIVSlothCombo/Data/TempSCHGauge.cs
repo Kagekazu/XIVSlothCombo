@@ -107,7 +107,7 @@ public struct ViperGauge
 {
     [FieldOffset(0x08)] public byte RattlingCoilStacks;
     [FieldOffset(0x0A)] public byte SerpentsOfferings;
-    [FieldOffset(0x0A)] public byte AnguineTribute;
+    [FieldOffset(0x09)] public byte AnguineTribute;
 
 }
 

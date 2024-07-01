@@ -81,6 +81,7 @@ namespace XIVSlothCombo.Window.Tabs
                 ImGui.Text($"{vprGauge.GetOffset(debugNum)}");
                 ImGui.Text($"RattlingCoil: {vprGauge.RattlingCoilStacks}");
                 ImGui.Text($"SerpentsOfferings: {vprGauge.SerpentsOfferings}");
+                ImGui.Text($"AnguineTribute: {vprGauge.AnguineTribute}");
             }
 
             else
