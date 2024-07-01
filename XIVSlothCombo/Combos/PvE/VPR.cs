@@ -296,7 +296,6 @@ namespace XIVSlothCombo.Combos.PvE
                         LevelChecked(WrithingSnap) && !InMeleeRange() && HasBattleTarget())
                         return WrithingSnap;
 
-
                     if (IsEnabled(CustomComboPreset.VPR_ST_CDs))
                     {
                         //Overcap protection
