@@ -285,7 +285,7 @@ namespace XIVSlothCombo.Combos.PvE
                                 return Reawaken;
 
                             if (IsEnabled(CustomComboPreset.VPR_ST_Dreadwinder) &&
-                                ActionReady(Dreadwinder))
+                                ActionReady(Dreadwinder) && !HasEffect(Buffs.Reawakened))
                                 return Dreadwinder;
 
                             if (GetBuffRemainingTime(Buffs.Swiftscaled) < 10 ||
