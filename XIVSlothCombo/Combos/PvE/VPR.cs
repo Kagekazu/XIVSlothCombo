@@ -161,6 +161,7 @@ namespace XIVSlothCombo.Combos.PvE
 
                                 if (TraitLevelChecked(Traits.EnhancedSerpentsLineage))
                                 {
+                                    //Legacy weaves
                                     if (TraitLevelChecked(Traits.EnhancedSerpentsLineage) && CanWeave(actionID) &&
                                         (WasLastAction(OriginalHook(SteelFangs)) || WasLastAction(OriginalHook(DreadFangs)) ||
                                         WasLastAction(OriginalHook(HuntersCoil)) || WasLastAction(OriginalHook(SwiftskinsCoil))))
@@ -209,6 +210,7 @@ namespace XIVSlothCombo.Combos.PvE
                                     if (HasEffect(Buffs.SwiftskinsVenom))
                                         return OriginalHook(Twinblood);
                                 }
+
                                 if (WasLastWeaponskill(SwiftskinsCoil))
                                     return HuntersCoil;
 
@@ -295,10 +297,8 @@ namespace XIVSlothCombo.Combos.PvE
                                 return OriginalHook(SteelFangs);
                         }
                     }
-
                     return OriginalHook(DreadFangs);
                 }
-
                 return actionID;
             }
         }
@@ -349,9 +349,10 @@ namespace XIVSlothCombo.Combos.PvE
 
                             if (TraitLevelChecked(Traits.EnhancedSerpentsLineage))
                             {
+                                //Legacy weaves
                                 if (TraitLevelChecked(Traits.EnhancedSerpentsLineage) && CanWeave(actionID) &&
-                                        (WasLastAction(OriginalHook(SteelMaw)) || WasLastAction(OriginalHook(DreadMaw)) ||
-                                        WasLastAction(OriginalHook(HuntersDen)) || WasLastAction(OriginalHook(SwiftskinsDen))))
+                                    (WasLastAction(OriginalHook(SteelMaw)) || WasLastAction(OriginalHook(DreadMaw)) ||
+                                    WasLastAction(OriginalHook(HuntersDen)) || WasLastAction(OriginalHook(SwiftskinsDen))))
                                     return OriginalHook(SerpentsTail);
 
                                 if (gauge.AnguineTribute is 5)
