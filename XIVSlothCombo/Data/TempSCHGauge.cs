@@ -63,6 +63,18 @@ public unsafe class TmpVPRGauge
 
     public byte AnguineTribute => Struct->AnguineTribute;
 
+    public bool DreadwinderReady => Struct->DreadwinderReady;
+
+    public bool HuntersCoilReady => Struct->HuntersCoilReady;
+
+    public bool SwiftskinsCoilReady => Struct->SwiftskinsCoilReady;
+
+    public bool PitOfDreadReady => Struct->PitOfDreadReady;
+
+    public bool HuntersDenReady => Struct->HuntersDenReady;
+
+    public bool SwiftskinsDenReady => Struct->SwiftskinsDenReady;
+
     private protected ViperGauge* Struct;
 
     public byte GetOffset(int offset)
@@ -108,6 +120,14 @@ public struct ViperGauge
     [FieldOffset(0x08)] public byte RattlingCoilStacks;
     [FieldOffset(0x0A)] public byte SerpentsOfferings;
     [FieldOffset(0x09)] public byte AnguineTribute;
+    [FieldOffset(0x0B)] public DreadwinderPitFlags DreadwinderPitCombo;
+
+    public bool DreadwinderReady => DreadwinderPitCombo.HasFlag(DreadwinderPitFlags.Dreadwinder);
+    public bool HuntersCoilReady => DreadwinderPitCombo.HasFlag(DreadwinderPitFlags.HuntersCoil);
+    public bool SwiftskinsCoilReady => DreadwinderPitCombo.HasFlag(DreadwinderPitFlags.SwiftskinsCoil);
+    public bool PitOfDreadReady => DreadwinderPitCombo.HasFlag(DreadwinderPitFlags.PitOfDread);
+    public bool HuntersDenReady => DreadwinderPitCombo.HasFlag(DreadwinderPitFlags.HuntersDen);
+    public bool SwiftskinsDenReady => DreadwinderPitCombo.HasFlag(DreadwinderPitFlags.SwiftskinsDen);
 
 }
 
@@ -125,4 +145,14 @@ public enum CreatureFlags : byte
 {
     Pom = 1,
     Wings = 16
+}
+[Flags]
+public enum DreadwinderPitFlags : byte
+{
+    Dreadwinder = 1,
+    HuntersCoil = 2,
+    SwiftskinsCoil = 3,
+    PitOfDread = 4,
+    HuntersDen = 5,
+    SwiftskinsDen = 6
 }

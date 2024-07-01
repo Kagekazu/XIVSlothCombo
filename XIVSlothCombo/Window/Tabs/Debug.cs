@@ -66,22 +66,14 @@ namespace XIVSlothCombo.Window.Tabs
                 ImGui.TextUnformatted($"SELECTED BLU SPELLS:\n{string.Join("\n", Service.Configuration.ActiveBLUSpells.Select(x => ActionWatching.GetActionName(x)).OrderBy(x => x))}");
                 ImGui.EndChild();
 
-                var pctGauge = new TmpPCTGauge();
-                ImGui.InputInt("DebugNum", ref debugNum);
-                ImGui.Text($"{pctGauge.GetOffset(debugNum)}");
-                ImGui.Text($"Pallete: {pctGauge.PalleteGauge}");
-                ImGui.Text($"Paint: {pctGauge.Paint}");
-                ImGui.Text($"Creature: {pctGauge.CreatureMotifDrawn}");
-                ImGui.Text($"Weapon: {pctGauge.WeaponMotifDrawn}");
-                ImGui.Text($"Landscape: {pctGauge.LandscapeMotifDrawn}");
-                ImGui.Text($"Moogle Potrait: {pctGauge.MooglePortraitReady}");
-
                 var vprGauge = new TmpVPRGauge();
                 ImGui.InputInt("DebugNum", ref debugNum);
                 ImGui.Text($"{vprGauge.GetOffset(debugNum)}");
                 ImGui.Text($"RattlingCoil: {vprGauge.RattlingCoilStacks}");
                 ImGui.Text($"SerpentsOfferings: {vprGauge.SerpentsOfferings}");
-                ImGui.Text($"AnguineTribute: {vprGauge.AnguineTribute}");
+                ImGui.Text($"DreadwinderReady: {vprGauge.DreadwinderReady}");
+                ImGui.Text($"HuntersCoilReady: {vprGauge.HuntersCoilReady}");
+                ImGui.Text($"SwiftskinsCoilReady: {vprGauge.SwiftskinsCoilReady}");
             }
 
             else

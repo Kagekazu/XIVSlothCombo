@@ -1,5 +1,4 @@
-﻿using Dalamud.Game.ClientState.JobGauge.Enums;
-using XIVSlothCombo.Combos.JobHelpers;
+﻿using XIVSlothCombo.Combos.JobHelpers;
 using XIVSlothCombo.CustomComboNS;
 using XIVSlothCombo.CustomComboNS.Functions;
 using XIVSlothCombo.Data;
@@ -202,13 +201,11 @@ namespace XIVSlothCombo.Combos.PvE
                                     if (HasEffect(Buffs.SwiftskinsVenom))
                                         return OriginalHook(Twinblood);
                                 }
-
-                                if (ActionReady(SwiftskinsCoil) &&
-                                    (lastComboMove is Dreadwinder || WasLastAbility(UncoiledTwinblood)))
-                                    return OriginalHook(SwiftskinsCoil);
-
                                 if (WasLastWeaponskill(SwiftskinsCoil))
-                                    return OriginalHook(HuntersCoil);
+                                    return HuntersCoil;
+
+                                if (gauge.DreadwinderReady && !WasLastWeaponskill(SwiftskinsCoil))
+                                    return SwiftskinsCoil;
                             }
                         }
                     }
@@ -267,7 +264,8 @@ namespace XIVSlothCombo.Combos.PvE
                         if (lastComboMove is HindstingStrike or HindsbaneFang or FlankstingStrike or FlanksbaneFang)
                         {
                             if (IsEnabled(CustomComboPreset.VPR_ST_SerpentsTail) &&
-                                CanWeave(actionID) && LevelChecked(SerpentsTail))
+                                CanWeave(actionID) && LevelChecked(SerpentsTail) && 
+                                (WasLastAction(HindstingStrike) || WasLastAction(HindsbaneFang) || WasLastAction(FlankstingStrike) || WasLastAction(FlanksbaneFang)))
                                 return OriginalHook(SerpentsTail);
 
                             //Reawakend usage
