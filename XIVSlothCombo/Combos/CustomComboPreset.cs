@@ -3638,8 +3638,12 @@ namespace XIVSlothCombo.Combos
         VPR_PitOfDreadDens = 20201,
 
         [ReplaceSkill(VPR.UncoiledFury)]
-        [CustomComboInfo("Uncoiled - Twins", "Replaces Uncoiled Fury with Uncoiled Twinfang and Uncoiled Twinblood to the button.", VPR.JobID)]
+        [CustomComboInfo("Uncoiled - Twins", "Replaces Uncoiled Fury with Uncoiled Twinfang and Uncoiled Twinblood.", VPR.JobID)]
         VPR_UncoiledTwins = 20202,
+
+        [ReplaceSkill(VPR.Reawaken)]
+        [CustomComboInfo("Reawawken - Legacy", "Replaces Reawaken with the Generations and Legacy's.", VPR.JobID)]
+        VPR_ReawakenLegacy = 20203,
 
         #endregion
 

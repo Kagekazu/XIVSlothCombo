@@ -868,5 +868,57 @@ namespace XIVSlothCombo.Combos.PvE
                 return actionID;
             }
         }
+
+        internal class VPR_ReawakenLegacy : CustomCombo
+        {
+            protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.VPR_ReawakenLegacy;
+
+            protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+            {
+                var gauge = new TmpVPRGauge();
+                if (actionID is Reawaken && HasEffect(Buffs.Reawakened))
+                {
+                    if (!TraitLevelChecked(Traits.EnhancedSerpentsLineage))
+                    {
+                        if (gauge.AnguineTribute is 4)
+                            return OriginalHook(SteelFangs);
+
+                        if (gauge.AnguineTribute is 3)
+                            return OriginalHook(DreadFangs);
+
+                        if (gauge.AnguineTribute is 2)
+                            return OriginalHook(HuntersCoil);
+
+                        if (gauge.AnguineTribute is 1)
+                            return OriginalHook(SwiftskinsCoil);
+                    }
+
+                    if (TraitLevelChecked(Traits.EnhancedSerpentsLineage))
+                    {
+                        //Legacy weaves
+                        if (TraitLevelChecked(Traits.EnhancedSerpentsLineage) && CanWeave(actionID) &&
+                            (WasLastAction(OriginalHook(SteelFangs)) || WasLastAction(OriginalHook(DreadFangs)) ||
+                            WasLastAction(OriginalHook(HuntersCoil)) || WasLastAction(OriginalHook(SwiftskinsCoil))))
+                            return OriginalHook(SerpentsTail);
+
+                        if (gauge.AnguineTribute is 5)
+                            return OriginalHook(SteelFangs);
+
+                        if (gauge.AnguineTribute is 4)
+                            return OriginalHook(DreadFangs);
+
+                        if (gauge.AnguineTribute is 3)
+                            return OriginalHook(HuntersCoil);
+
+                        if (gauge.AnguineTribute is 2)
+                            return OriginalHook(SwiftskinsCoil);
+
+                        if (gauge.AnguineTribute is 1)
+                            return OriginalHook(Reawaken);
+                    }
+                }
+                return actionID;
+            }
+        }
     }
 }
