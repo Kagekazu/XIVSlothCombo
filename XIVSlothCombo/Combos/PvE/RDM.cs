@@ -1,5 +1,4 @@
 using Dalamud.Game.ClientState.Conditions;
-using XIVSlothCombo.Combos.JobHelpers;
 using XIVSlothCombo.Combos.PvE.Content;
 using XIVSlothCombo.CustomComboNS;
 using XIVSlothCombo.CustomComboNS.Functions;
@@ -149,7 +148,6 @@ namespace XIVSlothCombo.Combos.PvE
         internal class RDM_ST_DPS : CustomCombo
         {
             protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.RDM_ST_DPS;
-            internal static RDMOpenerLogic RDMOpener = new();
 
             protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
             {
